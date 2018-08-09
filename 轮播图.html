@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+    <link rel="stylesheet" href="./animate.min.css">
+    <style>
+        .container {
+            width: 800px;
+            height: 400px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style: none;
+            width: 150px;
+            height: 95px;
+            position: relative;
+
+        }
+
+        em {
+            width: 150px;
+            height: 95px;
+            background: rgba(0, 0, 0, 0.5);
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            height: 400px;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        .bigimgs {
+            width: 600px;
+            height: 400px;
+            background-color: pink;
+            margin: auto;
+        }
+
+        .bigimgs>img {
+            width: 600px;
+            height: 400px;
+            position: absolute;
+            display: none;
+        }
+
+        .smallimg {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+
+        }
+
+        .smallimg img {
+            width: 150px;
+            height: 95px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="bigimgs">
+            <img src="./img/1.jpg" alt="" style="display:block;">
+            <img src="./img/2.jpg" alt="">
+            <img src="./img/3.jpg" alt="">
+            <img src="./img/4.jpg" alt="">
+        </div>
+        <div class="smallimg">
+            <ul>
+                <li>
+                    <img src="./img/1.jpg" alt="" style=" background: rgba(0, 0,0,0) ;">
+                    <em></em>
+                </li>
+                <li>
+                    <img src="./img/2.jpg" alt="">
+                    <em></em>
+                </li>
+                <li>
+                    <img src="./img/3.jpg" alt="">
+                    <em></em>
+                </li>
+                <li>
+                    <img src="./img/4.jpg" alt="">
+                    <em></em>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </div>
+    <script>
+        var bigimgs = document.querySelectorAll('.bigimgs img');
+        console.log(bigimgs);
+        var smallimg = document.querySelectorAll(".smallimg img");
+        console.log(smallimg)
+        var em = document.querySelectorAll(".smallimg em")
+        console.log(em)
+        // 设置一个变量来记录上一张大图片
+        var prebig = bigimgs[0];
+        // 设置一个变量来记录上一张小图片
+        var presmal = smallimg[0]
+        // 设置一个变量来记录当前图片的位置
+        var index = 0
+        //设置一个函数来记录索引值
+        function change() {
+            index = index >= bigimgs.length - 1 ? 0 : index + 1;
+            move();
+        }
+        //    图片轮播的函数
+        function move() {
+            // 隐藏上一张图片
+            prebig.style.display = "none";
+            // 显示当前的图片
+            bigimgs[index].style.display = "block"
+            // 给当前的图片设置动画表情
+            bigimgs[index].style.transition = "left .2s flash"
+            // 是图片动起来的关键,
+            prebig = bigimgs[index];
+            presmal.style.background = "";
+            em[index].style.background = "rgba(0, 0,0,0)";
+            presmal = em[index];
+        }
+        var lunbo = setInterval(change, 1000);
+        for (var i = 0; i < em.length; i++) {
+            em[i].index = i
+            em[i].onclick = function () {
+                console.log(this.index)
+                clearInterval(lunbo)
+                prebig.style.display = "none";
+                bigimgs[this.index].style.display = "block"
+                prebig = bigimgs[this.index];
+                presmal.style.background = "";
+                em[this.index].style.background = "rgba(0, 0,0,0)";
+                presmal = em[this.index];
+
+
+            }
+
+
+        }
+        document.getElementsByTagName('ul')[0].onmouseleave = function () {
+            // console.log("哈哈哈")
+            lunbo = setInterval(change, 1000);
+        }
+        document.getElementsByTagName('ul')[0].onmouseover = function () {
+            // console.log("呵呵呵")
+            clearInterval(lunbo);
+        }
+    </script>
+</body>
+
+</html>
